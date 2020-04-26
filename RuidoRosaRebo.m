@@ -31,4 +31,4 @@ P1(2:end-1) = 2*P1(2:end-1);
 f = fs*(0:(nx/2))/nx;
 semilogx(f,P1) 
 xlim([20 20000])
-
+grid on
