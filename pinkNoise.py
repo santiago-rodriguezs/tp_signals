@@ -4,8 +4,8 @@ import soundfile as sf
 import sounddevice as sd
 
 def pinkNoise(t, fs = 44100):
-    '''Crea un .wav de ruido rosa para un tiempo 't' y con frecuencia de muestreo
-     'fs', utilizando Numpy, scipy.signal y soundfile. Retorna el vector pinkNoise
+    '''Crea un .wav de ruido rosa para un tiempo 't' en segundos y con frecuencia de muestreo
+     'fs' (44100 por defecto), utilizando numpy, scipy.signal y soundfile. Retorna el vector pinkNoise
      y por defecto utiliza una frecuencia de muestreo de 44100Hz.'''
     
     nx = t*fs
