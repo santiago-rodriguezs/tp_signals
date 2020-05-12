@@ -24,5 +24,6 @@ def pinkNoise(t, fs = 44100):
     
     return pinkNoise
 
-sd.play(pinkNoise(10))
+pinkNoise(10)
+
  
