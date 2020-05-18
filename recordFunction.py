@@ -1,6 +1,7 @@
 import numpy as np
 import soundfile as sf
 import sounddevice as sd
+from multiprocessing import Process
 
 def record(fs = 44100):
     '''Interactive way of recording audio. Please call this function 
@@ -26,6 +27,21 @@ def record(fs = 44100):
 
 num = 1
 
-while num != -1:
-    print('s')
-    num = num -1
+import pyaudio
+import wave
+from multiprocessing import Process
+ 
+#PLAYING    
+def play(filenamePlay):
+    sd.play(filenamePlay)
+
+filenamePlay = "pinkNoise.wav"
+filenameRecord = "output.wav"
+seconds = 5
+
+def playRecord(filenamePlay, filenameRecord, seconds):
+    if __name__ == "__main__":
+        Process(target = play, args = (filenamePlay)).start()
+        Process(target = record, args = (filenameRecord, seconds)).start()
+        
+playRecord(filenamePlay, filenameRecord, seconds)
