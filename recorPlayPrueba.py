@@ -74,7 +74,7 @@ def play(filenamePlay):
     stream.close()
     p.terminate()
 
-filenamePlay = "pinkNoise.wav"
+filenamePlay = "prueba.wav"
 filenameRecord = "output.wav"
 seconds = 5
 
@@ -85,4 +85,4 @@ def playRecord(filenamePlay, filenameRecord, seconds):
 
         
         
-playRecord(filenamePlay, filenameRecord, seconds)
+record (filenameRecord, seconds)

@@ -44,4 +44,4 @@ def playRecord(filenamePlay, filenameRecord, seconds):
         Process(target = play, args = (filenamePlay)).start()
         Process(target = record, args = (filenameRecord, seconds)).start()
         
-playRecord(filenamePlay, filenameRecord, seconds)
+play(filenamePlay)
