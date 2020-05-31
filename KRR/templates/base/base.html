@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signals And Sistems WEB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" src="{{ url_for('static',filename='css/style.css') }}">
+</head>
+
+<header>
+  <h2>UNTREF - KRR</h2>
+</header>
+
+<body>
+  <div class="row">
+    <div class='col-2 container '>
+      <div id="" class="list-group">
+        <a class="list-group-item list-group-item-action" href="/">HOME</a>
+        <a class="list-group-item list-group-item-action" href="/syntetize">SYNTETIZE</a>
+        <a class="list-group-item list-group-item-action" href="/calibrate">CALIBRATE</a>
+        <a class="list-group-item list-group-item-action" href="/documentation">DOCS</a>
+        <a class="list-group-item list-group-item-action" href="/about">ABOUT US</a>
+      </div>
+    </div>
+
+    {% block content%}
+
+    {% endblock %}
+
+
+<footer class="footer page-footer font-small special-color-dark pt-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <form class="form-inline">
+            <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Comments..."
+              aria-label="comments">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <div class=""><button>Send</button></div>
+          </form>
+        </div>
+        <div class="col-md-6 mb-4">
+  
+            <ul class="list-unstyled">
+                <li>Kaplan - Rébora - Rodríguez</li>
+                <li>krr@gmail.com</li>
+                <li>+54 9 11 1234-5678</li>
+              </ul>
+      
+            </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script> -->
+</body>
+</html>

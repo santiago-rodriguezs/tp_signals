@@ -1,6 +1,6 @@
 import numpy as np 
 
-def iRSynth(t, bandwidth, T_60, fs = 44100, A_i = 1):
+def iRSynth(t, bandwidth, fs = 44100, A_i = 1):
     '''This function takes as an input the time length in seconds as you want your 
     impulse response to be (s), the array with t60 values corresponded with the 
     bandwidth you are going to choose (T_60), the bandwith as third or octave (bandwidth), 
@@ -12,11 +12,13 @@ def iRSynth(t, bandwidth, T_60, fs = 44100, A_i = 1):
 
     if bandwidth == "octave":
         freqs = [31.25, 62.5, 125, 250, 500, 1000, 2000, 4000, 8000]
+	T_60 = [1.07, 1.34, 1.39, 1.22, 1.17, 1.08, 0.76]
     
     elif bandwidth == "third":
         freqs = [19.69, 24.80, 31.25, 39.37, 49.61, 62.50, 78.75, 99.21,
                     125, 157.5, 198.4, 250, 315, 396.9, 500, 630, 793.7, 1000,
                     1260, 1587, 2000, 2520, 3175, 4000, 5040, 6350, 8000]
+	T_60 = [1.07, 1.34, 1.39, 1.22, 1.17, 1.08, 0.76, 0.52, 1.07, 1.04, 1.09, 0.32, 0.17, 1.08, 0.761, 1.07, 1.02, 0.76]
 
     pi = []
     iR_i = []
