@@ -1,7 +1,9 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import redirect, url_for
+from flask import redirect, url_for, flash
+from werkzeug.utils import secure_filename
+import os
 import sineSweep as ss
 
 import forms
@@ -23,6 +25,7 @@ def index():
 
     return render_template("index.html", flag = flag, form = audioForm)
 
+
 @app.route("/processing", methods = ["GET", "POST"])
 def processing():
 	audioForm = forms.AudioForm(request.form)
@@ -30,6 +33,14 @@ def processing():
 		var = audioForm.time.data
 
 	return render_template("processing.html", form = audioForm)
+
+@app.route("/upload", methods = ["GET", "POST"])
+def upload():
+	audioForm = forms.AudioForm(request.form)
+	if request.method == "POST" and audioForm.validate():
+		var = audioForm.time.data
+
+	return render_template("upload.html", form = audioForm)
 
 @app.route("/results", methods = ["GET", "POST"])
 def results():
