@@ -8,7 +8,8 @@ def leastSquaresNp(vectorT, signal):
     return lineLeastSquares
 
 def leastSquares(vectorT, signal):
-    ''' This function recieves a time (vectorT) array as the x axis, 
+    ''' 
+    This function recieves a time (vectorT) array as the x axis, 
     the signal you want to aproximate (signal) as the y axis and 
     returns an array with the values for the y axis of the
     adjusted line by the least squares method.
