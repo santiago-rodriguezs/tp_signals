@@ -1,17 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def leastSquaresNp(time, signal):
-    leastSquares = np.polyfit(time, signal, 1)
-    lineLeastSquares = time*leastSquares[0] + leastSquares[1]
+def leastSquaresNp(vectorT, signal):
+    leastSquares = np.polyfit(vectorT, signal, 1)
+    lineLeastSquares = vectorT*leastSquares[0] + leastSquares[1]
     
     return lineLeastSquares
 
 def leastSquares(vectorT, signal):
+    ''' This function recieves a time (vectorT) array as the x axis, 
+    the signal you want to aproximate (signal) as the y axis and 
+    returns an array with the values for the y axis of the
+    adjusted line by the least squares method.
+    '''
     n = len(signal)
     L = (1 / n) * np.cumsum(signal)
     t = (1 / n) * np.cumsum(vectorT)
-    m = 1
+    m = 1 # Se fijó un valor de 1 por que no sabemos que significa dicha variable. Sabemos que no es correcto porque no dan los resultados.
     
     b = (np.cumsum(signal * vectorT) - m * t * L)/(np.cumsum(vectorT ** 2) - m * t ** 2)
     a = L - b * t
