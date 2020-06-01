@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class = "col-10 container">
+  {% from "_macro.html" import render_field %}
+  <form id="upload"action="/processing" method="POST" enctype="multipart/form-data">
+      <h3>Upload your audio:</h3>
+      <div class="col-12">
+        {{ render_field(form.audio)}}
+      </div>
+      <h4>After uploading your audio, continue processing</h4>
+      <div class="col-12">
+        <button type="submit">Process</button>
+      </div>
+    </form>
+      
+    </div>
+  </div>
+  
+  {% endblock %}

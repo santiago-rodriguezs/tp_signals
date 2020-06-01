@@ -34,14 +34,14 @@
       </audio>
     {% endif %}
     </form>
-  <form id="upload"action="/" method="POST" enctype="multipart/form-data">
+  <form id="upload"action="/upload" method="POST">
       <h3>Or</h3>
       <div class="col-12">
-        {{ render_field(form.audio)}}
+        <button type="submit">Upload your audio</button>
       </div>
     </form>
-    <form id="processing"action="/processing" method="POST">
       <h4>After recording / uploading your audio, continue processing</h4>
+  <form id="upload"action="/processing" method="POST">
       <div class="col-12">
         <button type="submit">Process</button>
       </div>
