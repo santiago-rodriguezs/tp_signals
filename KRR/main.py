@@ -4,7 +4,9 @@ from flask import request
 from flask import redirect, url_for, flash
 from werkzeug.utils import secure_filename
 import os
+
 import sineSweep as ss
+import pinkNoise as pn
 
 import forms
 
@@ -21,7 +23,7 @@ def index():
         freq2 = audioForm.freq2.data
         ss.sineSweep(t, freq1, freq2)
         flag = True
-        redirect(url_for('.processing'))
+#        redirect(url_for('.processing'))
 
     return render_template("index.html", flag = flag, form = audioForm)
 
@@ -56,11 +58,14 @@ def syntetize():
 
 @app.route("/calibrate", methods = ["GET","POST"])
 def calibrate():
-	audioForm = forms.AudioForm(request.form)
-	if request.method == "POST" and audioForm.validate():
-		var = audioForm.time.data
-
-	return render_template("calibrate.html", form = audioForm)
+    audioForm = forms.AudioForm(request.form)
+    flag = False
+    if request.method == "POST":
+        t = audioForm.time.data
+        pn.pinkNoise(t)
+        flag = True
+        
+    return render_template("calibrate.html", flag = flag, form = audioForm)
 
 @app.route("/about", methods = ["GET"])
 def about():

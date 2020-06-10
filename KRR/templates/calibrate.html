@@ -6,9 +6,13 @@
         <form action="/calibrate" method="POST">
           <h2>In order to calibrate, define time in seconds and play this pink noise.</h2>
           <div class="form-group col-xs-12 floating-label-form-group controls">
-            {{ render_field(form.time, class="form-control")}}
-
-            <button type="submit">Play</button>
+            {{ render_field(form.time)}}
+            <button type="submit">Generate</button>
+            {% if flag %}
+            <audio controls>
+              <source src="{{ url_for('static',filename='audio/pinkNoise.wav') }}" type="audio/wav">
+            </audio>
+          {% endif %}
         </form>
     </div>
   </div>
