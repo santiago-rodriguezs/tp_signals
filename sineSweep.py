@@ -1,10 +1,9 @@
 import numpy as np
 import soundfile as sf
-import sounddevice as sd
 
 def sineSweep(t, f1, f2, inv = False):
     '''
-    Create a sine sweep between two frequencies with a duration of `timeValue`
+    Create a sine sweep between two frequencies with a duration of `t`
     seconds. If the inv parameter is True, then this creates the same 
     sine sweep and applies an inverse filter to it.
     
@@ -12,7 +11,7 @@ def sineSweep(t, f1, f2, inv = False):
     
     Parameters
     ----------
-    t : int
+    t : float or int
         Time value, it determines the duration of the sinesweep in seconds.
     f1 : int
         Starting frequency for the sweep.
@@ -37,32 +36,24 @@ def sineSweep(t, f1, f2, inv = False):
     
     fs = 44100
     
-    nx = t*fs
+    nx = round(t*fs)
     vectorT = np.linspace(0,t,nx)
     k = (t*w1)/np.log(w2/w1)
     l = t/np.log(w2/w1)
+    sineSweep = np.sin(k*(np.exp(vectorT/l)-1))
+
   
     if inv == False:
-        sineSweep = 0.5*np.sin(k*(np.exp(vectorT/l)-1))
         sf.write("sineSweep.wav", sineSweep, fs)
         return sineSweep
     
     elif inv == True: 
         w = (k/l) * np.exp(vectorT/l)
         m = w1/(2*np.pi*w)
-        print(vectorT)
-        vectorT = -vectorT
-        print(vectorT)
-        sineSweep = 0.5*np.sin(k*(np.exp(vectorT/l)-1))
-        invFilter = m * sineSweep  
+        invFilter = m * np.flip(sineSweep)
+        invFilter = invFilter/max(abs(invFilter))
         sf.write("invFilter.wav", invFilter, fs)
         return invFilter 
     
     else:
         return 'Invalid Argument.'
-    
-    
-
-
-
-    

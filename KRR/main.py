@@ -5,8 +5,8 @@ from flask import redirect, url_for, flash
 from werkzeug.utils import secure_filename
 import os
 
-import sineSweep as ss
-import pinkNoise as pn
+from calibrate import sineSweep, pinkNoise, playRec
+from process import iRObtention, filtr, logNorm, smoothing, schroeder
 
 import forms
 
@@ -16,25 +16,28 @@ app = Flask(__name__)
 def index():
     audioForm = forms.AudioForm(request.form)
     flag = False
-#    and audioForm.validate()
     if request.method == "POST":
         t = audioForm.time.data
         freq1 = audioForm.freq1.data
         freq2 = audioForm.freq2.data
-        ss.sineSweep(t, freq1, freq2)
+        #sineSweep(t, freq1, freq2)
+        playRec(sineSweep(t, freq1, freq2))
         flag = True
-#        redirect(url_for('.processing'))
 
     return render_template("index.html", flag = flag, form = audioForm)
 
 
 @app.route("/processing", methods = ["GET", "POST"])
 def processing():
-	audioForm = forms.AudioForm(request.form)
-	if request.method == "POST" and audioForm.validate():
-		var = audioForm.time.data
+    processingForm = forms.ProcessingForm(request.form)
+    if request.method == "POST":
+        bandwidth = processingForm.bandwidth.data
+        if bandwidth == "octave":
+            pass
+        elif bandwidth == "third":
+            pass
 
-	return render_template("processing.html", form = audioForm)
+    return render_template("processing.html", form = processingForm)
 
 @app.route("/upload", methods = ["GET", "POST"])
 def upload():
@@ -62,7 +65,7 @@ def calibrate():
     flag = False
     if request.method == "POST":
         t = audioForm.time.data
-        pn.pinkNoise(t)
+        pinkNoise(t)
         flag = True
         
     return render_template("calibrate.html", flag = flag, form = audioForm)
@@ -72,4 +75,4 @@ def about():
 	return render_template("about.html")
 
 if __name__ == "__main__":
-        app.run(debug = True, port = 9010)
+        app.run(debug = True, port = 9011)
