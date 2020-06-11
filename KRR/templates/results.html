@@ -5,6 +5,10 @@
       {% from "_macro.html" import render_field %}
         <form action="/processing" method="POST">
           <h2>The results are:</h2>
+          <h5>EDT: {{edtResult}}</h5>
+          <h5>T60: {{t60Result}}</h5>
+          <h5>D50: {{d50Result}}</h5>
+          <h5>C80: {{c80Result}}</h5>
           <p>Si, tenes coronavirus.</p>
         </form>
     </div>
