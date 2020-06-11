@@ -10,12 +10,11 @@ def iRObtention(audio,inv):
     sine sweep (y) and the same inverted sine sweep (inv) and it 
     returns the impulse response of the room.'''
     
-    zeros = np.zeros(len(audio)-len(inv))
-    inv = np.hstack((inv, zeros))
-    
     h_t = fftconvolve(audio, inv)
+    index = np.where(abs(h_t) == max(abs(h_t)))[0][0]
+    impulse = h_t[index:]
     
-    return h_t
+    return impulse
 
 def iRSynth(t, bandwidth, fs = 44100, A_i = 1):
     '''This function takes as an input the time length in seconds as you want your 
@@ -236,8 +235,8 @@ def edt(impulse, fs = 44100):
         The order of the polynomial used to fit the samples. 
         This value value must be less than window_length.
     '''
-    if impulse > 0 :
-        raise ValueError('Input should have no positive values.')
+#    if impulse > 0 :
+#        raise ValueError('Input should have no positive values.')
     
     vectorT = np.arange(len(impulse))/fs 
     index_edt = np.where(((impulse <= -1) & (impulse >= -10)))
@@ -268,8 +267,8 @@ def t60(impulse,  method = 't30', fs = 44100):
             + 't30' calculate from t30.
     '''
     
-    if impulse > 0 :
-        raise ValueError('Input should have no positive values.')
+#    if impulse > 0 :
+#        raise ValueError('Input should have no positive values.')
     
     vectorT = np.arange(len(impulse))/fs 
     
@@ -299,7 +298,7 @@ def t60(impulse,  method = 't30', fs = 44100):
         
     return t60
         
-def d50(impulse, fs):
+def d50(impulse, fs = 44100):
     '''
     Input ndarray normalized impulse response in dBFS, return d50 value.
     The function uses Numpy to integrate the impulse.
@@ -316,7 +315,7 @@ def d50(impulse, fs):
     
     return d50
 
-def c80(impulse, fs):
+def c80(impulse, fs = 44100):
     '''
     Input ndarray normalized impulse response in dBFS, return c80 value.
     The function uses Numpy to integrate the impulse.
@@ -333,3 +332,11 @@ def c80(impulse, fs):
     
     return c80
 
+record, fs = sf.read("./static/audio/record.wav")
+inv, fs = sf.read("./static/audio/invFilter.wav")
+impulseResponse = iRObtention(record, inv) 
+logNormAudio = logNorm(impulseResponse)
+smtAudio = smoothing(logNormAudio, "hilbert")
+edtR = edt(smtAudio)
+
+plt.plot(smtAudio)

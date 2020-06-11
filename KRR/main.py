@@ -61,15 +61,15 @@ def results():
 #        filteredAudio = filtr(logNormAudio, bandwidth)
 
         smtAudio = smoothing(logNormAudio, smtMethod)
-        schroederImpulse = schroeder(smtAudio, 3)
+#        schroederImpulse = schroeder(smtAudio, 3)
         
-#        edtResult = edt(impulseResponse)
-#        t60Result = t60(schroederImpulse, t60Method)
-#        d50Result = d50(schroederImpulse)
-#        c80Result = c80(schroederImpulse)
+        edtResult = edt(smtAudio)
+        t60Result = t60(smtAudio, t60Method)
+        d50Result = d50(smtAudio)
+        c80Result = c80(smtAudio)
 #, edtResult = edtResult, t60Result = t60Result, d50Result = d50Result, c80Result = c80Result
 
-    return render_template("results.html")
+    return render_template("results.html", bandwidth = bandwidth, edtResult = edtResult, t60Result = t60Result, d50Result = d50Result, c80Result = c80Result)
 
 def allowed_file(filename):
     return '.' in filename and \
