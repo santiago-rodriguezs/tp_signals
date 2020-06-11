@@ -12,7 +12,12 @@
               <p class="help-block text-danger"></p>
             </div>
           <div class="form-group col-xs-12 floating-label-form-group controls">
-            {{ render_field(form.method, class="form-control")}}
+            {{ render_field(form.smtMethod, class="form-control")}}
+
+            <p class="help-block text-danger"></p>
+          </div>
+          <div class="form-group col-xs-12 floating-label-form-group controls">
+            {{ render_field(form.t60Method, class="form-control")}}
 
             <p class="help-block text-danger"></p>
           </div>

@@ -15,6 +15,8 @@ class AudioForm(Form):
      
 class ProcessingForm(Form):
     bandwidth = SelectField('Bandwidth', choices=[('octave', 'octave'), ('third', 'third')])          
-    method = SelectField('Method', choices=[('hilbert', 'hilbert'), ('median', 'median'), ('savgol', 'savgol')])          
+    smtMethod = SelectField('Smoothing Method', choices=[('hilbert', 'hilbert'), ('median', 'median'), ('savgol', 'savgol')])          
+    t60Method = SelectField('T60 Method', choices=[('t10', 't10'), ('t20', 't20'), ('t30', 't30')])
+
 class SintetizeForm(Form):
     pass
