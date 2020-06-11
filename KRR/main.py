@@ -8,8 +8,9 @@ from werkzeug.utils import secure_filename
 import os
 
 from calibrate import sineSweep, pinkNoise, playRec
-from process import iRObtention, filtr, logNorm, smoothing, schroeder, edt, t60, d50, c80
+from process import iRObtention, filtr, logNorm, smoothing, schroeder
 from process import edt, t60, d50, c80
+from process import iRSynth
 import forms
 
 UPLOAD_FOLDER = "./static/audio"
@@ -100,11 +101,13 @@ def uploaded_file(filename):
 
 @app.route("/syntetize", methods = ["GET", "POST"])
 def syntetize():
-	audioForm = forms.AudioForm(request.form)
-	if request.method == "POST" and audioForm.validate():
-		var = audioForm.time.data
+    sintForm = forms.SintetizeForm(request.form)
+    if request.method == "POST":
+        t = sintForm.time.data
+        bandwidth = sintForm.bandwidth.data
+        iRSynth(t, bandwidth)
 
-	return render_template("syntetize.html", form = audioForm)
+    return render_template("syntetize.html", form = sintForm)
 
 @app.route("/calibrate", methods = ["GET","POST"])
 def calibrate():
@@ -122,4 +125,4 @@ def about():
 	return render_template("about.html")
 
 if __name__ == "__main__":
-        app.run(debug = True, port = 3000)
+        app.run(debug = True, port = 4000)

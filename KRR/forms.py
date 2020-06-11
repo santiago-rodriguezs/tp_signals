@@ -19,4 +19,6 @@ class ProcessingForm(Form):
     t60Method = SelectField('T60 Method', choices=[('t10', 't10'), ('t20', 't20'), ('t30', 't30')])
 
 class SintetizeForm(Form):
-    pass
+    time = IntegerField("Time", [validators.DataRequired(message = "The time is required.")
+	])
+    bandwidth = SelectField('Bandwidth', choices=[('octave', 'octave'), ('third', 'third')])          

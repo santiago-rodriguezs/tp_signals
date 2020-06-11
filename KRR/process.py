@@ -2,6 +2,8 @@ import numpy as np
 from scipy.fft import fft, ifft
 from scipy.signal import iirfilter, sosfilt, fftconvolve
 from scipy.signal import hilbert, savgol_filter, medfilt
+import soundfile as sf
+import matplotlib.pyplot as plt
 
 def iRObtention(audio,inv):
     '''This function takes as an input the recorded logarithmic 
@@ -15,7 +17,7 @@ def iRObtention(audio,inv):
     
     return h_t
 
-def iRSynth(t, bandwidth, T_60, fs = 44100, A_i = 1):
+def iRSynth(t, bandwidth, fs = 44100, A_i = 1):
     '''This function takes as an input the time length in seconds as you want your 
     impulse response to be (s), the array with t60 values corresponded with the 
     bandwidth you are going to choose (T_60), the bandwith as third or octave (bandwidth), 
@@ -26,12 +28,15 @@ def iRSynth(t, bandwidth, T_60, fs = 44100, A_i = 1):
     vectorT = np.linspace(0, t, N)
 
     if bandwidth == "octave":
-        freqs = [31.25, 62.5, 125, 250, 500, 1000, 2000, 4000, 8000]
+#31.25, 62.5, 
+        freqs = [125, 250, 500, 1000, 2000, 4000, 8000]
+        T_60 = [1.07, 1.34, 1.39, 1.22, 1.17, 1.08, 0.76]
     
     elif bandwidth == "third":
-        freqs = [19.69, 24.80, 31.25, 39.37, 49.61, 62.50, 78.75, 99.21,
-                    125, 157.5, 198.4, 250, 315, 396.9, 500, 630, 793.7, 1000,
+#19.69, 24.80, 31.25, 39.37, 49.61, 62.50, 78.75, 99.21,
+        freqs = [125, 157.5, 198.4, 250, 315, 396.9, 500, 630, 793.7, 1000,
                     1260, 1587, 2000, 2520, 3175, 4000, 5040, 6350, 8000]
+        T_60 = [1.07, 1.34, 1.39, 1.22, 1.17, 1.08, 0.76, 0.52, 1.07, 1.05, 1.04, 1.09, 0.32, 0.17, 1.08, 0.761, 1.07, 1.02, 0.76]
 
     pi = []
     iR_i = []
@@ -42,6 +47,8 @@ def iRSynth(t, bandwidth, T_60, fs = 44100, A_i = 1):
         iR_i.append(A_i * np.exp(pi[i] * vectorT) * np.cos(2 * np.pi * freqs[i] * vectorT))
 
     iR = np.cumsum(iR_i)
+    
+    iR = np.flip(iR)
     
     sf.write("./static/audio/iRSynth.wav", iR, fs)
 
@@ -325,3 +332,4 @@ def c80(impulse, fs):
     c80 = 10 * np.log10(np.sum(impulse[:t]) / np.sum(impulse[t:]))
     
     return c80
+
