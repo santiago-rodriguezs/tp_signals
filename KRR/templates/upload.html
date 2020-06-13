@@ -1,10 +1,13 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<div class = "col-10 container">
+<div class = "col-10 container card bg-light">
+  <h2>Upload</h2>
+  <p><br></p>
     <form method=POST enctype=multipart/form-data action="/upload" >
-      <input type=file name=file>
-      <input type=submit value=Upload>
+      <input class="col-10 btn btn-dark" type=file name=file>
+      <p><br></p>
+      <input class="col-10 btn btn-dark" type=submit value=Upload>
     </form>
       
 </div>

@@ -4,6 +4,7 @@ from scipy.signal import iirfilter, sosfilt, fftconvolve
 from scipy.signal import hilbert, savgol_filter, medfilt
 import soundfile as sf
 import matplotlib.pyplot as plt
+import os 
 
 def iRObtention(audio,inv):
     '''This function takes as an input the recorded logarithmic 
@@ -27,15 +28,15 @@ def iRSynth(t, bandwidth, fs = 44100, A_i = 1):
     vectorT = np.linspace(0, t, N)
 
     if bandwidth == "octave":
-#31.25, 62.5, 
-        freqs = [125, 250, 500, 1000, 2000, 4000, 8000]
-        T_60 = [1.07, 1.34, 1.39, 1.22, 1.17, 1.08, 0.76]
+
+        freqs = [62.5,125, 250, 500, 1000, 2000, 4000, 8000]
+        T_60 = [0.807, 0.846, 0.9, 0.9, 0.9, 0.9, 0.876, 0.709]
     
     elif bandwidth == "third":
-#19.69, 24.80, 31.25, 39.37, 49.61, 62.50, 78.75, 99.21,
-        freqs = [125, 157.5, 198.4, 250, 315, 396.9, 500, 630, 793.7, 1000,
+
+        freqs = [62.50, 78.75, 99.21, 125, 157.5, 198.4, 250, 315, 396.9, 500, 630, 793.7, 1000,
                     1260, 1587, 2000, 2520, 3175, 4000, 5040, 6350, 8000]
-        T_60 = [1.07, 1.34, 1.39, 1.22, 1.17, 1.08, 0.76, 0.52, 1.07, 1.05, 1.04, 1.09, 0.32, 0.17, 1.08, 0.761, 1.07, 1.02, 0.76]
+        T_60 = [0.85, 0.81, 0.881, 0.849, 0.892, 0.894, 0.891, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.843, 0.803, 0.744, 0.674]
 
     pi = []
     iR_i = []
@@ -49,7 +50,7 @@ def iRSynth(t, bandwidth, fs = 44100, A_i = 1):
     
     iR = np.flip(iR)
     
-    sf.write("./static/audio/iRSynth.wav", iR, fs)
+    sf.write("./static/audio/impulseResponse.wav", iR, fs)
 
     return iR
 
@@ -86,7 +87,7 @@ def filtr(audio, bandwidth = 'octave', fs = 44100):
     user_fs = fs    
     
     if bandwidth == 'octave':
-        freqs_octave = [31.25, 62.5, 125, 250, 500, 1000, 2000, 4000, 8000]
+        freqs_octave = [62.5, 125, 250, 500, 1000, 2000, 4000, 8000]
         bands_octave = []
         filtaudio_octave = []
 
@@ -103,7 +104,7 @@ def filtr(audio, bandwidth = 'octave', fs = 44100):
         
             
     elif bandwidth == 'third':
-        freqs_third = [19.69, 24.80, 31.25, 39.37, 49.61, 62.50, 78.75, 99.21,
+        freqs_third = [62.50, 78.75, 99.21,
                     125, 157.5, 198.4, 250, 315, 396.9, 500, 630, 793.7, 1000,
                     1260, 1587, 2000, 2520, 3175, 4000, 5040, 6350, 8000]
         bands_third = []
@@ -235,8 +236,6 @@ def edt(impulse, fs = 44100):
         The order of the polynomial used to fit the samples. 
         This value value must be less than window_length.
     '''
-#    if impulse > 0 :
-#        raise ValueError('Input should have no positive values.')
     
     vectorT = np.arange(len(impulse))/fs 
     index_edt = np.where(((impulse <= -1) & (impulse >= -10)))
@@ -266,9 +265,6 @@ def t60(impulse,  method = 't30', fs = 44100):
             + 't20' calculate from t20.
             + 't30' calculate from t30.
     '''
-    
-#    if impulse > 0 :
-#        raise ValueError('Input should have no positive values.')
     
     vectorT = np.arange(len(impulse))/fs 
     
@@ -332,11 +328,24 @@ def c80(impulse, fs = 44100):
     
     return c80
 
-record, fs = sf.read("./static/audio/record.wav")
-inv, fs = sf.read("./static/audio/invFilter.wav")
-impulseResponse = iRObtention(record, inv) 
-logNormAudio = logNorm(impulseResponse)
-smtAudio = smoothing(logNormAudio, "hilbert")
-edtR = edt(smtAudio)
+def plotting(impulse):
+    fs = 44100
+    freqs = np.fft.rfftfreq(len(impulse), 1/fs)
+    fourier = np.fft.rfft(impulse)
+    spectrum = np.abs(fourier)
+    spectrum[0] = 0
+    spectrum = logNorm(spectrum)
+    
+    plt.semilogx(freqs, spectrum, '#800080')
+    plt.title('Spectrum analysis of the impulse response')
+    plt.ylabel('Amplitud [dBFS]')
+    plt.xlabel('Frequency [Hz]')
+    plt.grid(True, which="both")
+    plt.xlim(20,10000)
+    plt.xticks([20,50,100,200,500,1000,2000,4000,8000,10000],
+               ['20','50','100','500','1000','2000','4000','8000','10000'])
 
-plt.plot(smtAudio)
+    plt.savefig("./static/img/impulse.png")
+
+    plt.close()
+

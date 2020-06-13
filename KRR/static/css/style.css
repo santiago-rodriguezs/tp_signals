@@ -1,8 +1,23 @@
-*{
-    background-color: rgb(red, green, rgb(218, 6, 189));
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: whitesmoke;
 }
 
-body {
-    color: white;
-    background-color: black;
+
+.card {
+    padding: 30px;
+}
+
+.main {
+    display: flex;
+    align-items: space-between;
+}
+
+.index {
+    margin: 50px;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-around;
 }

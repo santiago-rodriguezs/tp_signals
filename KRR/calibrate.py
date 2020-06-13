@@ -3,7 +3,7 @@ import soundfile as sf
 from scipy.signal import lfilter
 import sounddevice as sd
 
-def sineSweep(t, f1, f2, inv = False):
+def sineSweep(t, f1, f2, inv = False, fs = 44100):
     '''
     Create a sine sweep between two frequencies with a duration of `t`
     seconds. If the inv parameter is True, then this creates the same 
@@ -35,8 +35,6 @@ def sineSweep(t, f1, f2, inv = False):
     '''
     w1 = 2*np.pi*f1
     w2 = 2*np.pi*f2
-    
-    fs = 44100
     
     nx = round(t*fs)
     vectorT = np.linspace(0,t,nx)

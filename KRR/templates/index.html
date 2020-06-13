@@ -1,34 +1,34 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<div class = "col-10 container">
+<div class = "col-10 container card bg-light">
   {% from "_macro.html" import render_field %}
   <form id="rec-play"action="/" method="POST">
-    <h2>Welcome!</h2>
-    <h4>This is a website where you calculate acoustic parameters of the room you are in.<br> Good luck fella!</h4>
+
     <div class="row control-group">
-      <div class="form-group col-xs-12 floating-label-form-group controls">
+      <div class=" col-10 form-group col-xs-12 floating-label-form-group controls">
         {{ render_field(form.time, class="form-control")}}
         
         <p class="help-block text-danger"></p>
       </div>
       
-      <div class="form-group col-xs-12 floating-label-form-group controls">
+      <div class="col-5 form-group col-xs-12 floating-label-form-group controls">
         {{ render_field(form.freq1, class="form-control")}}
         
         <p class="help-block text-danger"></p>
       </div>
       
-      <div class="form-group col-xs-12 floating-label-form-group controls">
+      <div class="col-5 form-group col-xs-12 floating-label-form-group controls">
         {{ render_field(form.freq2, class="form-control")}}
         
         <p class="help-block text-danger"></p>
       </div>
     </div>
       <div class="col-12">
-        <button type="submit">Record / Play</button>
+        <button class="col-10 btn btn-dark" type="submit">Record / Play</button>
       </div>
-      <h4>After recording your audio, continue processing</h4>
+      <p><br></p>
+      <h4>After recording your audio, you can continue processing</h4>
       {% if flag %}
       <h4>This is what you 've recorded:</h4>
       <audio controls>
@@ -37,7 +37,7 @@
     </form>
       <form id="upload"action="/processing" method="POST">
         <div class="col-12">
-          <button type="submit">Process</button>
+          <button class="col-8 btn btn-dark" type="submit">Process</button>
         </div>
       </form>
     {% endif %}

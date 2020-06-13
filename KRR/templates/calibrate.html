@@ -1,13 +1,16 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-    <div class = "col-10 container">
+    <div class = "col-10 container card bg-light">
       {% from "_macro.html" import render_field %}
         <form action="/calibrate" method="POST">
           <h2>In order to calibrate, define time in seconds and play this pink noise.</h2>
           <div class="form-group col-xs-12 floating-label-form-group controls">
-            {{ render_field(form.time)}}
-            <button type="submit">Generate</button>
+            <div class="col-6">
+            {{ render_field(form.time, class="form-control")}}
+          </div>
+          <p><br></p>
+            <button class="col-10 btn btn-dark" type="submit">Generate</button>
             {% if flag %}
             <audio controls>
               <source src="{{ url_for('static',filename='audio/pinkNoise.wav') }}" type="audio/wav">
