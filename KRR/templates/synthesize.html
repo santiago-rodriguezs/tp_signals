@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <div class = "row col-10 container card bg-light">
+      <h2></h2>
+      {% from "_macro.html" import render_field %}
+        <form action="/synthesize" method="POST">
+        <h2>Synthesize your own impulse response and continue the procedure</h2>
+          <div class="row control-group">
+            <div class="col-6 form-group col-xs-12 floating-label-form-group controls">
+              {{ render_field(form.time, class="form-control")}}
+
+              <p class="help-block text-danger"></p>
+            </div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+              {{ render_field(form.bandwidth, class="form-control")}}
+
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <button class="col-10 btn btn-dark" type="submit">Syntetize</button>
+        </form>
+        <p><br></p>
+    </div>
+  </div>
+
+{% endblock %}
