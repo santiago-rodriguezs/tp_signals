@@ -1,4 +1,6 @@
 import numpy as np
+
+#from scipy.fft import fft, ifft
 from scipy.signal import iirfilter, sosfilt, fftconvolve
 from scipy.signal import hilbert, savgol_filter, medfilt
 import soundfile as sf
@@ -12,6 +14,7 @@ def iRObtention(audio,inv):
     h_t = fftconvolve(audio, inv)
     index = np.where(abs(h_t) == max(abs(h_t)))[0][0]
     impulse = h_t[index:]
+
     impulse = impulse/max(abs(impulse))
     
     return impulse
@@ -187,7 +190,7 @@ def smoothing(audio, method = 'hilbert',fs = 44100, window_len = 7, polyorder = 
 
     return smooth_audio
 
-def lundeby(impulse, fs, max_tries):
+def lundeby(impulse, max_tries, fs = 44100):
     '''
     Docstring goes here.
     '''
@@ -269,6 +272,7 @@ def schroeder(impulse, t, fs = 44100):
 
     '''
     short_impulse = impulse[0:int(round(t*fs))]
+
     integrate_sch = np.cumsum(short_impulse[::-1])/np.sum(impulse)
 
     return integrate_sch[::-1]
