@@ -9,7 +9,7 @@ import os
 import numpy as np
 
 from calibrate import sineSweep, pinkNoise, playRec
-from process import iRObtention, filtr, logNorm, smoothing, schroeder, plotting
+from process import iRObtention, filtr, logNorm, smoothing, schroeder, plotting, lundeby
 from process import edt, t60, d50, c80
 from process import iRSynth
 import forms
@@ -69,7 +69,11 @@ def results():
             
         except RuntimeError:
             impulseResponse, fs = sf.read("./static/audio/impulseResponse.wav")
+            index = np.where(abs(impulseResponse) == max(abs(impulseResponse)))[0][0]
+            impulseResponse = impulseResponse[index:]
             
+        impulseResponse = impulseResponse[:fs]
+        
         plotting(impulseResponse)
         
         filteredList = filtr(impulseResponse, bandwidth) 
@@ -92,17 +96,19 @@ def results():
             smoothBand = smoothing(smoothBand, "median")
             smoothBand = smoothing(smoothBand, "savgol")
             
-            schroederBand = schroeder(smoothBand, 0.45)
+            crosspoint = lundeby(logNorm(smoothBand))
+            
+            schroederBand = schroeder(logNorm(smoothBand), crosspoint)
 
             logBand = logNorm(schroederBand)
         
             edtResult.append(np.round(edt(logBand), 3))
             t60Result.append(np.round(t60(logBand, t60Method), 3))
             d50Result.append(np.round(d50(logBand)*100, 1))
-            c80Result.append(np.round(c80(logBand), 1))
+            c80Result.append(-1 * np.round(c80(logBand), 1))
         
     file1 = open("./static/txt/data.txt","w")
-    file1.write("Frequencies: " + ", ".join(map(str, freqs)) + "\nEDT: " + ", ".join(map(str, edtResult)) + "\nT60: " + ", ".join(map(str, t60Result)) + "\nD50: " + ", ".join(map(str, d50Result)) + "\nC80: " + ", ".join(map(str, c80Result))+ "\n")
+    file1.write("Frequencies: [" + ", ".join(map(str, freqs)) + "]\nEDT: [" + ", ".join(map(str, edtResult)) + "]\nT60: [" + ", ".join(map(str, t60Result)) + "]\nD50: [" + ", ".join(map(str, d50Result)) + "]\nC80: [" + ", ".join(map(str, c80Result))+ "]\n")
     file1.close() 
     
 
@@ -163,4 +169,4 @@ def about():
 	return render_template("about.html")
 
 if __name__ == "__main__":
-        app.run(debug = True, port = 4000)
+        app.run(debug = True, port = 3000)
